@@ -56,7 +56,7 @@ function transParts(t){if(t.kind==='income'||t.kind==='transfer'||t.kind==='excl
  let manual=t.kind==='expense'?Math.min(amt,Math.max(0,num(t.manualRefund))):0;
  return base.map(part=>{let g=groupFor(part.category,part.groupOverride||(!t.splits.length?t.groupOverride:''));let contribution=t.kind==='refund'?-Math.abs(part.amount):Math.abs(part.amount)*(1-manual/amt);return{category:part.category,group:g,amount:round(contribution)};});}
 function budgetValue(t){return round(transParts(t).reduce((s,p)=>s+(isBudget(p.group)?p.amount:0),0));}
-function active(t){return t.date.slice(0,10)>=ui.dateStart&&t.date.slice(0,10)<=ui.dateEnd&&(ui.globalCard==='all'||t.card===ui.globalCard);}
+function active(t){let date=t.date.slice(0,10);return(!ui.dateStart||date>=ui.dateStart)&&(!ui.dateEnd||date<=ui.dateEnd)&&(ui.globalCard==='all'||t.card===ui.globalCard);}
 function scoped(){return state.transactions.filter(active)}
 function summarize(txs){let cat=new Map,groups={essential:0,unexpected:0,extra:0,financial:0},count=new Map;let debit=0,bankRefund=0,manualRefund=0,credit=0,transferOut=0,transferIn=0;
  for(let t of txs){if(t.amount<0)debit+=Math.abs(t.amount);else credit+=t.amount;
