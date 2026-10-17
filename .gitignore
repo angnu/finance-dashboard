@@ -1,0 +1,9 @@
+# Never commit financial transactions or private backups
+*.xls
+*.xlsx
+*.csv
+*.json
+*backup*
+*statement*
+*report*
+.DS_Store
